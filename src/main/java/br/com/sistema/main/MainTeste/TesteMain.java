@@ -15,5 +15,15 @@ import br.com.sistema.model.Produto;
         // 2. Usamos o DAO para salvar no banco
         ProdutoDAO dao = new ProdutoDAO();
         dao.salvar(p1);
+
+        Produto p2 = new Produto();
+        p2.setSku("ALX-002");
+        p2.setNome("Cabo de Aço 20mm");
+        p2.setDescricao("Material de alta resitência para elevação");
+
+        ProdutoDAO dao2 = new ProdutoDAO();
+        dao2.salvar(p2);
+
+
     }
 }
