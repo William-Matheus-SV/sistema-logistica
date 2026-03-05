@@ -1,10 +1,24 @@
 package br.com.sistema.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "estoque")
 public class Estoque {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+   // Porque muitos registros de estoque podem se referir a um único produto ou endereço.
+    @ManyToOne
+    @JoinColumn(name = "id_produto") // Nome da coluna FK no MySQL
     private Produto produto;
+    @ManyToOne
+    @JoinColumn(name = "id_endereco") // Nome da coluna FK no MySQL
     private Endereco endereco;
+
     private int quantidade;
+
+    public Estoque() {}
 
     public int getId() {return id;}
 

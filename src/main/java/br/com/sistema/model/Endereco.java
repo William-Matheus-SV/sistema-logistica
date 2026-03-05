@@ -1,11 +1,19 @@
 package br.com.sistema.model;
 
+import jakarta.persistence.*;
+
+@Entity // Transforma a classe em Entidade de Banco
+@Table(name = "enderecos") // Garante que aponte para a tabela correta
 public class Endereco {
+    @Id // Define que este é o ID (Chave Primária)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Diz que o MySQL que gera o número (Auto_increment)
     private int id;
     private String rua;
     private int bloco;
     private int nivel;
     private boolean disponivel;
+
+    public Endereco() {}
 
     public int getId() {return id;}
 
