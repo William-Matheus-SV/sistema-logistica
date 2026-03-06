@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EstoqueDAO {
-
-    // 1. MÉTODO PARA ALOCAR (O coração da sua apresentação)
+    // Método para Alocar
     public void alocarProduto(Estoque estoque) {
         String sqlEstoque = "INSERT INTO estoque (produto_id, endereco_id, quantidade) VALUES (?, ?, ?)";
         String sqlEndereco = "UPDATE enderecos SET disponivel = ? WHERE id = ?";
@@ -48,7 +47,7 @@ public class EstoqueDAO {
         }
     }
 
-    // 2. MÉTODO PARA LISTAR (Para mostrar na sua tabela HTML)
+    // Método para Listar
     public List<Estoque> listarGeral() {
         String sql = "SELECT e.id, e.quantidade, p.nome as nome_produto, end.rua, end.bloco " +
                 "FROM estoque e " +
