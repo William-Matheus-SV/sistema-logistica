@@ -5,16 +5,22 @@ import br.com.sistema.dao.ProdutoDAO;
 import br.com.sistema.dao.EnderecoDAO;
 import br.com.sistema.model.Estoque;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/estoque")
 public class EstoqueController {
-    private EstoqueDAO estoqueDAO = new EstoqueDAO();
-    private ProdutoDAO produtoDAO = new ProdutoDAO();
-    private EnderecoDAO enderecoDAO = new EnderecoDAO();
+    @Autowired
+    private EstoqueDAO estoqueDAO;
+    @Autowired
+    private ProdutoDAO produtoDAO;
+    @Autowired
+    private EnderecoDAO enderecoDAO;
 
     // Abre a tela de Alocação
     @GetMapping("/alocar")

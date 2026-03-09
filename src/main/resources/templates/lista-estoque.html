@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Inventário Geral</title>
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-dark bg-dark mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="#">📦 WMS Gestão</a>
+    <div class="navbar-nav d-flex flex-row">
+      <a class="nav-link px-2" href="/produtos/novo">Entrada</a>
+      <a class="nav-link px-2" href="/enderecos/mapa">Mapa</a>
+      <a class="nav-link px-2 active" href="/estoque/listar">Inventário</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container bg-white p-4 shadow rounded">
+  <h2 class="text-secondary">Posições de Estoque</h2>
+  <table class="table table-hover mt-3">
+    <thead class="table-info">
+    <tr>
+      <th>SKU</th>
+      <th>Produto</th>
+      <th>Localização (Rua-Bloco)</th>
+      <th>Quantidade</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="est : ${estoques}">
+      <td th:text="${est.produto.sku}">SKU</td>
+      <td th:text="${est.produto.nome}">Nome</td>
+      <td th:text="${est.endereco.rua} + '-' + ${est.endereco.bloco}">A-1</td>
+      <td th:text="${est.quantidade}">0</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div th:if="${#lists.isEmpty(estoques)}" class="alert alert-warning text-center">
+    Nenhum item alocado no momento. Vá em "Entrada" para começar!
+  </div>
+</div>
+</body>
+</html>

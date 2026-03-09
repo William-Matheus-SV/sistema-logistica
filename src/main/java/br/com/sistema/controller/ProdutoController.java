@@ -3,9 +3,11 @@ package br.com.sistema.controller;
 import br.com.sistema.dao.ProdutoDAO;
 import br.com.sistema.model.Produto;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+
 @Controller // Diz para o Spring que essa classe controla páginas web
 @RequestMapping("/produtos")
 public class ProdutoController {

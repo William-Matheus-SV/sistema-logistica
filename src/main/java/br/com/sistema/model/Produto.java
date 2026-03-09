@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Produto {
     @Id // Define que este é o ID (Chave Primária)
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Diz que o MySQL que gera o número (Auto_increment)
-    private int id;
+    private Integer id;
     private String sku;
     private String nome;
     private String descricao;
@@ -16,12 +16,10 @@ public class Produto {
     public Produto() {}
 
     // Getters e Setters (Para acessar e modificar os dados)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(Integer id) {this.id = id; }
 
     public String getSku() {
         return sku;

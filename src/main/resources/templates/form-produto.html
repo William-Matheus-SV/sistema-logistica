@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrada de Mercadoria - Logística</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .card-form { max-width: 600px; margin: 50px auto; border-radius: 15px; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow">
+    <div class="container">
+        <a class="navbar-brand" href="#">📦 Sistema WMS</a>
+        <div class="navbar-nav">
+            <a class="nav-link active" href="/produtos/novo">Entrada</a>
+            <a class="nav-link" href="/enderecos/mapa">Mapa de Endereços</a>
+            <a class="nav-link" href="/estoque/listar">Inventário</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="card card-form shadow">
+        <div class="card-header bg-primary text-white text-center rounded-top">
+            <h3 class="mb-0">Cadastrar Novo Produto</h3>
+        </div>
+        <div class="card-body p-4">
+            <form th:action="@{/produtos/salvar}" th:object="${produto}" method="post">
+
+                <div class="mb-3">
+                    <label for="sku" class="form-label fw-bold">SKU do Produto</label>
+                    <input type="text" th:field="*{sku}" class="form-control" id="sku" placeholder="Ex: PROD-123" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="nome" class="form-label fw-bold">Nome / Modelo</label>
+                    <input type="text" th:field="*{nome}" class="form-control" id="nome" placeholder="Ex: Monitor Gamer 24p" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="descricao" class="form-label fw-bold">Descrição Detalhada</label>
+                    <textarea th:field="*{descricao}" class="form-control" id="descricao" rows="3" placeholder="Informações adicionais..."></textarea>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success btn-lg">Finalizar Cadastro</button>
+                    <a href="/estoque/listar" class="btn btn-outline-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.min.js"></script>
+</body>
+</html>

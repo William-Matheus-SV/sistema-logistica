@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Estoque {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
    // Porque muitos registros de estoque podem se referir a um único produto ou endereço.
     @ManyToOne
     @JoinColumn(name = "id_produto") // Nome da coluna FK no MySQL
@@ -18,11 +18,14 @@ public class Estoque {
 
     private int quantidade;
 
-    public Estoque() {}
+    public Estoque() {
+        this.produto = new Produto();
+        this.endereco = new Endereco();
+    }
 
-    public int getId() {return id;}
+    public Integer getId() {return id;}
 
-    public void setId(int id) {this.id = id;}
+    public void setId(Integer id) {this.id = id;}
 
     public Produto getProduto() {return produto;}
 

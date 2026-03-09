@@ -4,6 +4,7 @@ import br.com.sistema.factory.ConnectionFactory;
 import br.com.sistema.model.Estoque;
 import br.com.sistema.model.Produto;
 import br.com.sistema.model.Endereco;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +12,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class EstoqueDAO {
     // Método para Alocar
     public void alocarProduto(Estoque estoque) {
@@ -83,3 +85,5 @@ public class EstoqueDAO {
         return lista;
     }
 }
+
+//Criar classe para Criar e Editar endereços pelo Estoque

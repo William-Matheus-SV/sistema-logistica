@@ -3,6 +3,7 @@ package br.com.sistema.controller;
 import br.com.sistema.dao.EnderecoDAO;
 import br.com.sistema.model.Endereco;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,6 @@ public class EnderecoController {
     @GetMapping("/mapa")
     public String mapaArmazemento(Model model){
         model.addAttribute("enderecos", enderecoDAO.listarTodos());
-        return "mapaArmazenamento";
+        return "mapa-armazem";
     }
 }

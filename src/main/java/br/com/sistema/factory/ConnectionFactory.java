@@ -13,8 +13,8 @@ public class ConnectionFactory {
 
     public static Connection createConnectionToMySQL() throws Exception {
         // Faz a conexão com o banco de dados
-        Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD);
-        return connection;
+        Connection con = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD);
+        return con;
     }
 
     public static void main(String[] args) {

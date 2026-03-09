@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Mapa do Armazém</title>
+    <style>
+        .vaga { width: 100px; height: 100px; display: flex; align-items: center;
+            justify-content: center; color: white; font-weight: bold; border-radius: 8px; }
+    </style>
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-dark bg-dark mb-4 shadow">
+    <div class="container">
+        <a class="navbar-brand" href="#">📦 WMS Dashboard</a>
+        <div class="navbar-nav d-flex flex-row">
+            <a class="nav-link px-2" href="/produtos/novo">Entrada</a>
+            <a class="nav-link px-2 active" href="/enderecos/mapa">Mapa</a>
+            <a class="nav-link px-2" href="/estoque/listar">Inventário</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h2 class="mb-4 text-center">Status de Ocupação das Vagas</h2>
+
+    <div class="d-flex flex-wrap justify-content-center">
+        <div th:each="e : ${enderecos}" class="m-2 shadow-sm text-center">
+            <div class="vaga" th:classappend="${e.disponivel} ? 'bg-success' : 'bg-danger'">
+                <span th:text="${e.rua} + '-' + ${e.bloco}">A1-10</span>
+            </div>
+            <small class="text-muted d-block mt-1"
+                   th:text="${e.disponivel} ? 'DISPONÍVEL' : 'OCUPADO'"></small>
+        </div>
+    </div>
+
+    <div class="mt-5 p-3 bg-white border rounded">
+        <h5>Legenda:</h5>
+        <span class="badge bg-success">Verde: Vaga Livre</span>
+        <span class="badge bg-danger ms-2">Vermelho: Vaga Ocupada</span>
+    </div>
+</div>
+</body>
+</html>
