@@ -37,5 +37,13 @@ public class EstoqueController {
         estoqueDAO.alocarProduto(estoque);
         return "redirect:/enderecos/mapa"; // Após alocar, mostra o mapa atualizado
     }
+
+    @GetMapping("/listar")
+    public String listar(Model model) {
+        // Usamos 'estoques' para combinar com o th:each="${estoques}" do seu HTML
+        // Usamos 'listarGeral()' porque é o nome que está no seu EstoqueDAO
+        model.addAttribute("estoques", estoqueDAO.listarGeral());
+        return "lista-estoque";
+    }
 }
 

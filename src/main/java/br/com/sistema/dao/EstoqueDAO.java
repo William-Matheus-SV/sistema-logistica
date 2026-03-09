@@ -26,14 +26,14 @@ public class EstoqueDAO {
                  PreparedStatement pstmEndereco = conn.prepareStatement(sqlEndereco)) {
 
                 // Preenche o INSERT do Estoque
-                pstmEstoque.setInt(1, estoque.getProduto().getId());
-                pstmEstoque.setInt(2, estoque.getEndereco().getId());
+                pstmEstoque.setObject(1, estoque.getProduto().getId());
+                pstmEstoque.setObject(2, estoque.getEndereco().getId());
                 pstmEstoque.setInt(3, estoque.getQuantidade());
                 pstmEstoque.execute();
 
                 // Preenche o UPDATE do Endereço (marca como ocupado/false)
                 pstmEndereco.setBoolean(1, false);
-                pstmEndereco.setInt(2, estoque.getEndereco().getId());
+                pstmEndereco.setObject(2, estoque.getEndereco().getId());
                 pstmEndereco.execute();
 
                 conn.commit(); // Salva as duas operações juntas
@@ -51,7 +51,7 @@ public class EstoqueDAO {
 
     // Método para Listar
     public List<Estoque> listarGeral() {
-        String sql = "SELECT e.id, e.quantidade, p.nome as nome_produto, end.rua, end.bloco " +
+        String sql = "SELECT e.id, e.quantidade, p.sku, p.nome as nome_produto, end.rua, end.bloco " +
                 "FROM estoque e " +
                 "JOIN produtos p ON e.produto_id = p.id " +
                 "JOIN enderecos end ON e.endereco_id = end.id";
@@ -64,12 +64,13 @@ public class EstoqueDAO {
 
             while (rset.next()) {
                 Estoque estoque = new Estoque();
-                estoque.setId(rset.getInt("id"));
+                estoque.setId((Integer) rset.getObject("id"));
                 estoque.setQuantidade(rset.getInt("quantidade"));
 
                 // Estanciando objetos internos para o Produto
                 Produto p = new Produto();
                 p.setNome(rset.getString("nome_produto"));
+                p.setSku(rset.getString("sku"));
                 estoque.setProduto(p);
                 // Estanciando objetos internos para o Endereço
                 Endereco end = new Endereco();

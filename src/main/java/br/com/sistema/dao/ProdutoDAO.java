@@ -14,24 +14,24 @@ import java.util.List;
 public class ProdutoDAO {
     //Aplicando o CRUD na aplicação
     //Salvar -> Create
-    public void salvar(Produto produto) {
-        // Comando SQL com "?" para evitar SQL Injection (segurança)
-        String sql = "INSERT INTO produtos (sku, nome, descricao) VALUES (?, ?, ?)";
+        public void salvar(Produto produto) {
+            // Comando SQL com "?" para evitar SQL Injection (segurança)
+            String sql = "INSERT INTO produtos (sku, nome, descricao) VALUES (?, ?, ?)";
 
-        try (Connection conn = ConnectionFactory.createConnectionToMySQL();
-             PreparedStatement pstm = conn.prepareStatement(sql)) {
+            try (Connection conn = ConnectionFactory.createConnectionToMySQL();
+                 PreparedStatement pstm = conn.prepareStatement(sql)) {
 
-            pstm.setString(1, produto.getSku());
-            pstm.setString(2, produto.getNome());
-            pstm.setString(3, produto.getDescricao());
+                pstm.setString(1, produto.getSku());
+                pstm.setString(2, produto.getNome());
+                pstm.setString(3, produto.getDescricao());
 
-            pstm.execute();
-            System.out.println("Produto salvo com sucesso!");
+                pstm.execute();
+                System.out.println("Produto salvo com sucesso!");
 
-        } catch (Exception e) {
-            System.out.println("Erro ao salvar produto: " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Erro ao salvar produto: " + e.getMessage());
+            }
         }
-    }
     //Listar -> Read
     public List<Produto> listarTodos() {
         String sql = "SELECT * FROM produtos";
@@ -43,7 +43,7 @@ public class ProdutoDAO {
 
             while (rset.next()) {
                 Produto p = new Produto();
-                p.setId(rset.getInt("id"));
+                p.setId((Integer) rset.getObject("id"));
                 p.setSku(rset.getString("sku"));
                 p.setNome(rset.getString("nome"));
                 p.setDescricao(rset.getString("descricao"));
@@ -67,7 +67,7 @@ public class ProdutoDAO {
             pstm.setString(3, produto.getDescricao());
 
             // O ID vai por último porque é o critério do WHERE
-            pstm.setInt(4, produto.getId()); // O ID diz ao MySQL qual registro será alterado
+            pstm.setObject(4, produto.getId()); // O ID diz ao MySQL qual registro será alterado
 
             pstm.execute();
             System.out.println("Produto ID " + produto.getId() + " atualizado com sucesso!");
@@ -77,13 +77,13 @@ public class ProdutoDAO {
         }
     }
     //Deletar -> Delete
-    public void excluir(int id) {
+    public void excluir(Integer id) {
         String sql = "DELETE FROM produtos WHERE id = ?";
 
         try (Connection conn = ConnectionFactory.createConnectionToMySQL();
              PreparedStatement pstm = conn.prepareStatement(sql)) {
 
-            pstm.setInt(1, id);
+            pstm.setObject(1, id);
 
             pstm.execute();
             System.out.println("Produto ID " + id + " removido com sucesso!");
