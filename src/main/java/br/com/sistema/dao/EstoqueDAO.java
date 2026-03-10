@@ -16,8 +16,8 @@ import java.util.List;
 public class EstoqueDAO {
     // Método para Alocar
     public void alocarProduto(Estoque estoque) {
-        String sqlEstoque = "INSERT INTO estoque (produto_id, endereco_id, quantidade) VALUES (?, ?, ?)";
-        String sqlEndereco = "UPDATE enderecos SET disponivel = 0 WHERE id = ?";
+        String sqlEstoque = "INSERT INTO estoque (id_produto, id_endereco, quantidade) VALUES (?, ?, ?)";
+        String sqlEndereco = "UPDATE enderecos SET disponivel = ? WHERE id = ?";
 
         try (Connection conn = ConnectionFactory.createConnectionToMySQL()) {
             conn.setAutoCommit(false); // Ativa o controle transacional (ACID)
@@ -33,7 +33,7 @@ public class EstoqueDAO {
 
                 // Preenche o UPDATE do Endereço (marca como ocupado/false)
                 pstmEndereco.setBoolean(1, false);
-                pstmEndereco.setObject(2, estoque.getEndereco().getId());
+                pstmEndereco.setInt(2, estoque.getEndereco().getId());
                 pstmEndereco.execute();
 
                 conn.commit(); // Salva as duas operações juntas
@@ -51,10 +51,10 @@ public class EstoqueDAO {
 
     // Método para Listar
     public List<Estoque> listarGeral() {
-        String sql = "SELECT e.id, e.quantidade, p.sku, p.nome as nome_produto, end.rua, end.bloco " +
+        String sql = "SELECT e.id, e.quantidade, p.sku, p.nome as nome_produto, end.rua, end.bloco, end.nivel " +
                 "FROM estoque e " +
-                "JOIN produtos p ON e.produto_id = p.id " +
-                "JOIN enderecos end ON e.endereco_id = end.id";
+                "JOIN produtos p ON e.id_produto = p.id " +
+                "JOIN enderecos end ON e.id_endereco = end.id";
 
         List<Estoque> lista = new ArrayList<>();
 
@@ -76,6 +76,7 @@ public class EstoqueDAO {
                 Endereco end = new Endereco();
                 end.setRua(rset.getString("rua"));
                 end.setBloco(rset.getInt("bloco"));
+                end.setNivel(rset.getInt("nivel"));
                 estoque.setEndereco(end);
                 // Adiciona o array lista na tabela estoque com produto + endereço
                 lista.add(estoque);

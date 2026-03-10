@@ -9,11 +9,13 @@
 
 <nav class="navbar navbar-dark bg-dark mb-4">
   <div class="container">
-    <a class="navbar-brand" href="#">📦 WMS Gestão</a>
+    <a class="navbar-brand" href="#">📦 Sistema WMS</a>
     <div class="navbar-nav d-flex flex-row">
       <a class="nav-link px-2" href="/produtos/novo">Entrada</a>
+      <a class="nav-link px-2" href="/produtos/listar">Produtos</a>
       <a class="nav-link px-2" href="/enderecos/mapa">Mapa</a>
-      <a class="nav-link px-2 active" href="/estoque/listar">Inventário</a>
+      <a class="nav-link px-2" href="/estoque/alocar">Alocar</a>
+      <a class="nav-link px-2" href="/estoque/listar">Inventário</a>
     </div>
   </div>
 </nav>
@@ -25,7 +27,7 @@
     <tr>
       <th>SKU</th>
       <th>Produto</th>
-      <th>Localização (Rua-Bloco)</th>
+      <th>Localização (Rua-Bloco-Nível)</th>
       <th>Quantidade</th>
     </tr>
     </thead>
@@ -33,7 +35,7 @@
     <tr th:each="est : ${estoques}">
       <td th:text="${est.produto.sku}">SKU</td>
       <td th:text="${est.produto.nome}">Nome</td>
-      <td th:text="${est.endereco.rua} + '-' + ${est.endereco.bloco}">A-1</td>
+      <td th:text="${est.endereco.rua} + '-' + ${est.endereco.bloco} + '-' + ${est.endereco.nivel}">A-1</td>
       <td th:text="${est.quantidade}">0</td>
     </tr>
     </tbody>

@@ -11,9 +11,16 @@
 </head>
 <body>
 
-<nav class="navbar navbar-dark bg-dark mb-4">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow">
   <div class="container">
-    <a class="navbar-brand" href="#">📦 Sistema WMS</a>
+    <a class="navbar-brand fw-bold" href="#">📦 Sistema WMS</a>
+    <div class="navbar-nav ms-auto d-flex flex-row">
+      <a class="nav-link px-3" href="/produtos/novo">Entrada</a>
+      <a class="nav-link px-3" href="/produtos/listar">Produtos</a>
+      <a class="nav-link px-3" href="/enderecos/mapa">Mapa</a>
+      <a class="nav-link px-3" href="/estoque/alocar">Alocar</a>
+      <a class="nav-link px-3" href="/estoque/listar">Inventário</a>
+    </div>
   </div>
 </nav>
 
@@ -27,7 +34,7 @@
 
         <div class="mb-4">
           <label class="form-label fw-bold">Selecione o Produto:</label>
-          <select th:field="*{produto}" class="form-select" required>
+          <select th:field="*{produto.id}" class="form-select" required>
             <option value="" selected>Escolha um produto...</option>
             <option th:each="p : ${produtos}"
                     th:value="${p.id}"
@@ -41,7 +48,7 @@
             <option value="" disabled selected>Escolha uma vaga livre...</option>
             <option th:each="e : ${enderecosLivres}"
                     th:value="${e.id}"
-                    th:text="'Rua: ' + ${e.rua} + ' | Bloco: ' + ${e.bloco}"></option>
+                    th:text="'Rua: ' + ${e.rua} + ' | Bloco: ' + ${e.bloco} + ' | Nível: ' + ${e.nivel}"></option>
           </select>
         </div>
 
@@ -51,7 +58,7 @@
         </div>
 
         <div class="d-grid gap-2">
-          <button type="submit" class="btn btn-primary btn-lg">Confirmar Alocação (ACID)</button>
+          <button type="submit" class="btn btn-primary btn-lg">Confirmar Alocação</button>
           <a href="/enderecos/mapa" class="btn btn-outline-secondary">Voltar ao Mapa</a>
         </div>
       </form>

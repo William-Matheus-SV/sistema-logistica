@@ -44,5 +44,6 @@ public class EstoqueController {
         model.addAttribute("estoques", estoqueDAO.listarGeral());
         return "lista-estoque";
     }
+
 }
 

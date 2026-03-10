@@ -38,7 +38,7 @@ public class EnderecoDAO {
     }
 
     public List<Endereco> listarTodos() {
-        String sql = "SELECT * FROM enderecos";
+        String sql = "SELECT * FROM enderecos ORDER BY rua ASC, nivel ASC, bloco ASC";
         List<Endereco> lista = new ArrayList<>();
 
         try (Connection conn = ConnectionFactory.createConnectionToMySQL();

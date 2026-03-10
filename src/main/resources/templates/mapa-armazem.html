@@ -16,7 +16,9 @@
         <a class="navbar-brand" href="#">📦 WMS Dashboard</a>
         <div class="navbar-nav d-flex flex-row">
             <a class="nav-link px-2" href="/produtos/novo">Entrada</a>
+            <a class="nav-link px-2" href="/produtos/listar">Produtos</a>
             <a class="nav-link px-2 active" href="/enderecos/mapa">Mapa</a>
+            <a class="nav-link px-2" href="/estoque/alocar">Alocar</a>
             <a class="nav-link px-2" href="/estoque/listar">Inventário</a>
         </div>
     </div>
@@ -25,24 +27,27 @@
 <div class="container">
     <h2 class="mb-4 text-center">Status de Ocupação das Vagas</h2>
 
-    <div class="d-flex flex-wrap justify-content-center">
-        <div th:each="e : ${enderecos}" class="m-2 shadow-sm text-center">
-            <div class="vaga" th:classappend="${e.disponivel} ? 'bg-success' : 'bg-danger'">
-                <div>
-                    <span th:text="${e.rua} + '-' + ${e.bloco}">A1-10</span><br>
-                    <small style="font-size: 0.7rem; opacity: 0.8;">Nível: <span th:text="${e.nivel}">1</span></small>
-                </div>
-            </div>
-            <small class="fw-bold d-block mt-1"
-                   th:classappend="${e.disponivel} ? 'text-success' : 'text-danger'"
-                   th:text="${e.disponivel} ? 'LIVRE' : 'OCUPADO'"></small>
-        </div>
-    </div>
+    <div th:each="rua : ${ruas}" class="mb-5 p-4 bg-white shadow-sm rounded border">
+        <h4 class="text-primary border-bottom pb-2">Rua: <span th:text="${rua}">A</span></h4>
 
-    <div class="mt-5 p-3 bg-white border rounded">
-        <h5>Legenda:</h5>
-        <span class="badge bg-success">Verde: Vaga Livre</span>
-        <span class="badge bg-danger ms-2">Vermelho: Vaga Ocupada</span>
+        <div th:each="n : ${#numbers.sequence(3, 1, -1)}" class="d-flex align-items-center mb-3">
+
+            <div class="me-3 fw-bold text-muted" style="width: 70px;">Nível <span th:text="${n}">1</span></div>
+
+            <div class="d-flex flex-wrap border-start ps-3">
+                <th:block th:each="e : ${enderecos}">
+                    <div th:if="${e.rua == rua and e.nivel == n}" class="m-2 text-center">
+                        <div class="vaga" th:classappend="${e.disponivel} ? 'bg-success' : 'bg-danger'"
+                             style="width: 80px; height: 80px; font-size: 0.9rem;">
+                            <span th:text="'Bl: ' + ${e.bloco}">B10</span>
+                        </div>
+                        <small class="fw-bold d-block mt-1" style="font-size: 0.7rem;"
+                               th:classappend="${e.disponivel} ? 'text-success' : 'text-danger'"
+                               th:text="${e.disponivel} ? 'LIVRE' : 'OCUPADO'"></small>
+                    </div>
+                </th:block>
+            </div>
+        </div>
     </div>
 </div>
 </body>
