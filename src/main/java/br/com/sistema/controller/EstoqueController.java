@@ -40,8 +40,7 @@ public class EstoqueController {
 
     @GetMapping("/listar")
     public String listar(Model model) {
-        // Usamos 'estoques' para combinar com o th:each="${estoques}" do seu HTML
-        // Usamos 'listarGeral()' porque é o nome que está no seu EstoqueDAO
+        // Usamos 'listarGeral()' porque é o nome que está no EstoqueDAO
         model.addAttribute("estoques", estoqueDAO.listarGeral());
         return "lista-estoque";
     }

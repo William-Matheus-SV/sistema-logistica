@@ -54,6 +54,31 @@ public class ProdutoDAO {
         }
         return produtos;
     }
+    // Buscar um único produto pelo ID para carregar na tela de edição
+    public Produto buscarPorId(Integer id) {
+        String sql = "SELECT * FROM produtos WHERE id = ?";
+        Produto p = null;
+
+        try (Connection conn = ConnectionFactory.createConnectionToMySQL();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+
+            // Usamos setObject para manter o padrão de segurança com Integer
+            pstm.setObject(1, id);
+
+            try (ResultSet rset = pstm.executeQuery()) {
+                if (rset.next()) {
+                    p = new Produto();
+                    p.setId((Integer) rset.getObject("id"));
+                    p.setSku(rset.getString("sku"));
+                    p.setNome(rset.getString("nome"));
+                    p.setDescricao(rset.getString("descricao"));
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar produto por ID: " + e.getMessage());
+        }
+        return p;
+    }
     //Atualizar -> Update
     public void atualizar(Produto produto) {
         String sql = "UPDATE produtos SET sku = ?, nome = ?, descricao = ? WHERE id = ?";

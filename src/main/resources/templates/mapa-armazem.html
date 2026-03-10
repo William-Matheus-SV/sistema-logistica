@@ -28,10 +28,14 @@
     <div class="d-flex flex-wrap justify-content-center">
         <div th:each="e : ${enderecos}" class="m-2 shadow-sm text-center">
             <div class="vaga" th:classappend="${e.disponivel} ? 'bg-success' : 'bg-danger'">
-                <span th:text="${e.rua} + '-' + ${e.bloco}">A1-10</span>
+                <div>
+                    <span th:text="${e.rua} + '-' + ${e.bloco}">A1-10</span><br>
+                    <small style="font-size: 0.7rem; opacity: 0.8;">Nível: <span th:text="${e.nivel}">1</span></small>
+                </div>
             </div>
-            <small class="text-muted d-block mt-1"
-                   th:text="${e.disponivel} ? 'DISPONÍVEL' : 'OCUPADO'"></small>
+            <small class="fw-bold d-block mt-1"
+                   th:classappend="${e.disponivel} ? 'text-success' : 'text-danger'"
+                   th:text="${e.disponivel} ? 'LIVRE' : 'OCUPADO'"></small>
         </div>
     </div>
 

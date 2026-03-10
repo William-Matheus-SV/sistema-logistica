@@ -17,7 +17,7 @@ public class EstoqueDAO {
     // Método para Alocar
     public void alocarProduto(Estoque estoque) {
         String sqlEstoque = "INSERT INTO estoque (produto_id, endereco_id, quantidade) VALUES (?, ?, ?)";
-        String sqlEndereco = "UPDATE enderecos SET disponivel = ? WHERE id = ?";
+        String sqlEndereco = "UPDATE enderecos SET disponivel = 0 WHERE id = ?";
 
         try (Connection conn = ConnectionFactory.createConnectionToMySQL()) {
             conn.setAutoCommit(false); // Ativa o controle transacional (ACID)

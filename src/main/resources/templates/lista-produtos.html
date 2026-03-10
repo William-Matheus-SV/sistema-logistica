@@ -20,6 +20,7 @@
             <th>SKU</th>
             <th>Nome</th>
             <th>Descrição</th>
+            <th>Ações</th>
         </tr>
         </thead>
         <tbody>
@@ -27,6 +28,19 @@
             <td th:text="${p.sku}">SKU</td>
             <td th:text="${p.nome}">Nome</td>
             <td th:text="${p.descricao}">Descrição</td>
+
+        <td>
+            <a th:href="@{/produtos/editar/{id}(id=${p.id})}" class="btn btn-sm btn-warning text-dark">
+                ✏️ Editar
+            </a>
+        </td>
+        <td>
+            <a th:href="@{/produtos/excluir/{id}(id=${p.id})}"
+               class="btn btn-sm btn-danger"
+               onclick="return confirm('Tem certeza que deseja excluir este produto? Isso pode afetar o estoque!')">
+                🗑️ Excluir
+            </a>
+        </td>
         </tr>
         </tbody>
     </table>
