@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/estoque")
@@ -26,7 +27,7 @@ public class EstoqueController {
     @GetMapping("/alocar")
     public String telaAlocacao(Model model) {
         model.addAttribute("estoque", new Estoque());
-        model.addAttribute("produtos", produtoDAO.listarTodos()); // Lista para o Select
+        model.addAttribute("produtos", produtoDAO.listarNaoAlocados()); // Lista para o Select
         model.addAttribute("enderecosLivres", enderecoDAO.listarDisponiveis()); // Apenas os Vazios!
         return "form-alocacao";
     }
@@ -43,6 +44,23 @@ public class EstoqueController {
         // Usamos 'listarGeral()' porque é o nome que está no EstoqueDAO
         model.addAttribute("estoques", estoqueDAO.listarGeral());
         return "lista-estoque";
+    }
+    @PostMapping("/atualizar")
+    public String atualizar(Estoque estoque, RedirectAttributes redirectAttributes) {
+        if (estoque.getQuantidade() < 1) {
+            redirectAttributes.addFlashAttribute("erro", "A quantidade deve ser pelo menos 1.");
+            return "redirect:/estoque/editar/" + estoque.getId();
+        }
+        // 1. Buscamos o registro antigo para saber qual era a vaga anterior
+        Estoque estoqueAntigo = estoqueDAO.buscarPorId(estoque.getId());
+        int idVagaAntiga = estoqueAntigo.getEndereco().getId();
+        int idVagaNova = estoque.getEndereco().getId();
+
+        // 2. Chamamos o DAO para atualizar os dados e as disponibilidades
+        // Passamos o ID da vaga antiga para que o sistema saiba qual liberar
+        estoqueDAO.atualizarComRemanejamento(estoque, idVagaAntiga);
+
+        return "redirect:/estoque/listar";
     }
 
 }

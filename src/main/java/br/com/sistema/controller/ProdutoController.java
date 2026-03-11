@@ -1,12 +1,15 @@
 package br.com.sistema.controller;
 
+import br.com.sistema.dao.EstoqueDAO;
 import br.com.sistema.dao.ProdutoDAO;
+import br.com.sistema.model.Estoque;
 import br.com.sistema.model.Produto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller // Diz para o Spring que essa classe controla páginas web
@@ -14,7 +17,8 @@ import java.util.List;
 public class ProdutoController {
     @Autowired
     private  ProdutoDAO produtoDAO;
-
+    @Autowired
+    private EstoqueDAO estoqueDAO;
 
     //CRUD
 
@@ -40,6 +44,7 @@ public class ProdutoController {
     }
     @GetMapping("/excluir/{id}") //(DELETE)
     public String excluir(@PathVariable("id") Integer id) {
+        estoqueDAO.excluirPorProdutoId(id);
         produtoDAO.excluir(id);
         return "redirect:/produtos/listar";
     }
@@ -50,6 +55,9 @@ public class ProdutoController {
 
         if (produtoExistente != null) {
             model.addAttribute("produto", produtoExistente);
+
+            Estoque estoque = estoqueDAO.buscarPorProdutoId(produtoExistente.getId());
+            model.addAttribute("estoque", estoque);
             return "form-produto-edicao"; // O nome do seu HTML de edição
         } else {
             // Se o produto não existir, volta para a lista (segurança)
@@ -63,5 +71,6 @@ public class ProdutoController {
         produtoDAO.atualizar(produto);
         return "redirect:/produtos/listar"; // Redireciona para a lista após salvar
     }
+
 }
 

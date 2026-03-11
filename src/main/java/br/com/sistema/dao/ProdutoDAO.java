@@ -14,7 +14,7 @@ import java.util.List;
 public class ProdutoDAO {
     //Aplicando o CRUD na aplicação
     //Salvar -> Create
-        public void salvar(Produto produto) {
+    public void salvar(Produto produto) {
             // Comando SQL com "?" para evitar SQL Injection (segurança)
             String sql = "INSERT INTO produtos (sku, nome, descricao) VALUES (?, ?, ?)";
 
@@ -53,6 +53,29 @@ public class ProdutoDAO {
             e.printStackTrace();
         }
         return produtos;
+    }
+    public List<Produto> listarNaoAlocados() {
+        List<Produto> lista = new ArrayList<>();
+        // O segredo está nesta query SQL
+        String sql = "SELECT * FROM produtos WHERE id NOT IN (SELECT id_produto FROM estoque)";
+
+        try (Connection conn = ConnectionFactory.createConnectionToMySQL();
+             PreparedStatement pstm = conn.prepareStatement(sql);
+             ResultSet rset = pstm.executeQuery()) {
+
+            while (rset.next()) {
+                Produto p = new Produto();
+                p.setId(rset.getInt("id"));
+                p.setSku(rset.getString("sku"));
+                p.setNome(rset.getString("nome"));
+                p.setDescricao(rset.getString("descricao"));
+
+                lista.add(p);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao filtrar produtos não alocados: " + e.getMessage());
+        }
+        return lista;
     }
     // Buscar um único produto pelo ID para carregar na tela de edição
     public Produto buscarPorId(Integer id) {

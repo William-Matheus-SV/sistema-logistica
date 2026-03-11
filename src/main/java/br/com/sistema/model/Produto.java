@@ -1,6 +1,8 @@
 package br.com.sistema.model;
 
+import jakarta.persistence.Transient;
 import jakarta.persistence.*;
+
 
 @Entity // Transforma a classe em Entidade de Banco
 @Table(name = "produtos") // Garante que aponte para a tabela correta
@@ -14,6 +16,8 @@ public class Produto {
 
     // Construtor vazio
     public Produto() {}
+    @Transient
+    private Integer quantidadeInicial;
 
     // Getters e Setters (Para acessar e modificar os dados)
     public Integer getId() {
@@ -41,4 +45,7 @@ public class Produto {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    public Integer getQuantidadeInicial() { return quantidadeInicial; }
+    public void setQuantidadeInicial(Integer quantidadeInicial) { this.quantidadeInicial = quantidadeInicial; }
 }

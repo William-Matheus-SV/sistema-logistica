@@ -44,6 +44,12 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="quantidadeInicial" class="form-label fw-bold">Quantidade de Entrada</label>
+                    <input type="number" th:field="*{quantidadeInicial}" class="form-control" id="quantidadeInicial" min="1" placeholder="Ex: 50" required>
+                    <div class="form-text">Essa quantidade ficará aguardando alocação no inventário.</div>
+                </div>
+
+                <div class="mb-3">
                     <label for="descricao" class="form-label fw-bold">Descrição Detalhada</label>
                     <textarea th:field="*{descricao}" class="form-control" id="descricao" rows="3" placeholder="Informações adicionais..."></textarea>
                 </div>

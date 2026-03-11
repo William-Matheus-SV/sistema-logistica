@@ -1,10 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>WMS Gestão - Editar Cadastro</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
 
-</body>
-</html>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#">📦 Logística System</a>
+    <div class="navbar-nav ms-auto d-flex flex-row">
+      <a class="nav-link px-3" href="/produtos/listar">Produtos</a>
+      <a class="nav-link px-3" href="/enderecos/mapa">Mapa</a>
+      <a class="nav-link px-3" href="/estoque/alocar">Alocar</a>
+      <a class="nav-link px-3" href="/estoque/listar">Inventário</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-5">
+  <div class="card shadow border-0">
+    <div class="card-header bg-warning text-dark fw-bold">
+      Editar Cadastro de Estoque (Remanejamento)
+    </div>
+    <div class="card-body">
+      <form th:action="@{/estoque/atualizar}" th:object="${estoque}" method="post">
+
+        <input type="hidden" th:field="*{id}">
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Produto:</label>
+            <input type="text" class="form-control bg-light"
+                   th:value="${estoque.produto.nome}" readonly>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Quantidade:</label>
+            <input type="number" class="form-control" th:field="*{quantidade}" min="1" step="1" required>
+            <div class="form-text">A quantidade mínima para alocação é 1 unidade.</div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Alterar Localização (Vagas Livres):</label>
+          <select th:field="*{endereco.id}" class="form-select">
+            <option th:value="${estoque.endereco.id}"
+                    th:text="'Atual: ' + ${estoque.endereco.rua} + '-' + ${estoque.endereco.bloco} + '-' + ${estoque.endereco.nivel}">
+            </option>
+
+            <option th:each="e : ${enderecosLivres}"
+                    th:value="${e.id}"
+                    th:text="${e.rua} + '-' + ${e.bloco} + '-' + ${e.nivel}">
+            </option>
+          </select>
+          <small class="text-muted">Selecione uma nova vaga para mover o produto no mapa.</small>
+        </div>
+
+        <div class="mt-4">
+          <button type="submit" class="btn btn-success px-4">Salvar Alterações</button>
+          <a href="/estoque/listar" class="btn btn-secondary px-4">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
